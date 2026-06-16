@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>pdf2one -?PDF 合并工具</title>
+<title>pdf2one — PDF 合并工具</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -108,12 +108,12 @@ input[type="file"]{display:none}
   <header>
     <h1>pdf<span>2</span>one</h1>
     <span class="tagline">PDF 合并</span>
-    <span class="badge">纯浏览器端?/span>
+    <span class="badge">纯浏览器端</span>
   </header>
 
   <div class="card drop-zone" id="dropZone">
     <div class="icon">&#x1F4C4;</div>
-    <div class="label">拖拽 .pdf 文件到此处?/div>
+    <div class="label">拖拽 .pdf 文件到此处</div>
     <div class="sublabel">或点击下方按钮选择</div>
     <button class="file-btn" id="selectBtn">选择文件</button>
     <input type="file" id="fileInput" multiple accept=".pdf">
@@ -121,7 +121,7 @@ input[type="file"]{display:none}
 
   <div class="card file-list-wrap" id="fileListWrap">
     <div class="file-list-header">
-      <span class="count">已选择 <em id="fileCount">0</em> 个文件?/span>
+      <span class="count">已选择 <em id="fileCount">0</em> 个文件</span>
       <button class="btn-clear" id="btnClear">清空</button>
     </div>
     <div id="fileList"></div>
@@ -129,7 +129,7 @@ input[type="file"]{display:none}
 
   <div class="action-area" id="actionArea" style="display:none">
     <button class="merge-btn" id="mergeBtn">
-      <span class="label">合并并下载?/span>
+      <span class="label">合并并下载</span>
       <span class="spinner"></span>
     </button>
     <div class="progress-wrap" id="progressWrap">
@@ -141,7 +141,7 @@ input[type="file"]{display:none}
 
   <div class="summary-bar" id="summaryBar">
     <span id="summaryMsg"></span>
-    <button class="btn-new" id="btnNew">重新开始?/button>
+    <button class="btn-new" id="btnNew">重新开始</button>
   </div>
 </div>
 
@@ -215,36 +215,36 @@ function render() {
 
 async function mergeAndDownload() {
   if (!fileItems.length) { setStatus('请先选择 .pdf 文件', 'error'); return; }
-  if (typeof PDFDocument === 'undefined') { setStatus('PDF-lib 库加载失败，请检查网络?, 'error'); return; }
+  if (typeof PDFDocument === 'undefined') { setStatus('PDF-lib 库加载失败，请检查网络', 'error'); return; }
   mergeBtn.classList.add('loading'); mergeBtn.disabled = true; setStatus(''); summaryBar.className = 'summary-bar'; progressWrap.classList.remove('visible');
   try {
-    updateProgress(5, '正在读取文件…?);
+    updateProgress(5, '正在读取文件…');
     const fileBuffers = [];
     for (const item of fileItems) {
       fileBuffers.push(await item.file.arrayBuffer());
     }
-    updateProgress(10, '已加载?' + fileBuffers.length + ' �?PDF，开始合并…?);
+    updateProgress(10, '已加载 ' + fileBuffers.length + ' 个 PDF，开始合并…');
     const mergedPdf = await PDFDocument.create();
     let totalPages = 0;
     for (let i = 0; i < fileBuffers.length; i++) {
       const pct = 10 + Math.round(((i + 0.5) / fileBuffers.length) * 70);
-      updateProgress(pct, '正在合并第?' + (i + 1) + '/' + fileBuffers.length + ' �?PDF…?);
+      updateProgress(pct, '正在合并第 ' + (i + 1) + '/' + fileBuffers.length + ' 个 PDF…');
       const srcDoc = await PDFDocument.load(fileBuffers[i], { ignoreEncryption: true });
       const indices = srcDoc.getPageIndices();
       const pages = await mergedPdf.copyPages(srcDoc, indices);
       pages.forEach(p => mergedPdf.addPage(p));
       totalPages += indices.length;
     }
-    updateProgress(85, '正在生成 PDF…?);
+    updateProgress(85, '正在生成 PDF…');
     const pdfBytes = await mergedPdf.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const baseName = fileItems.length === 1 ? fileItems[0].name.replace(/\.pdf$/i, '') : '合并文档';
     const fileName = baseName + '_merged.pdf';
     if (typeof saveAs !== 'undefined') { saveAs(blob, fileName); }
     else { const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); URL.revokeObjectURL(url); }
-    updateProgress(100, '合并完成！共 ' + totalPages + ' �?);
-    setStatus('下载已启动?, 'success');
-    showSummary('合并成功: ' + fileName + '�? + totalPages + ' 页）', 'success');
+    updateProgress(100, '合并完成！共 ' + totalPages + ' 页');
+    setStatus('下载已启动', 'success');
+    showSummary('合并成功: ' + fileName + '（' + totalPages + ' 页）', 'success');
   } catch (err) {
     console.error(err);
     setStatus(err.message || err, 'error');
@@ -258,7 +258,7 @@ mergeBtn.addEventListener('click', mergeAndDownload);
 
 setTimeout(() => {
   if (typeof PDFDocument === 'undefined') {
-    setStatus('PDF-lib 库加载中，请检查网络连接?, 'error');
+    setStatus('PDF-lib 库加载中，请检查网络连接', 'error');
   }
 }, 3000);
 </script>
