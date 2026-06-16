@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';document.head.appendChild(s)"></script>
 <style>
 :root {
   --bg: #f3f4f6;
@@ -263,9 +263,9 @@ mergeBtn.addEventListener('click', mergeAndDownload);
 
 setTimeout(() => {
   if (typeof PDFDocument === 'undefined') {
-    setStatus('PDF-lib 库加载中，请检查网络连接', 'error');
+    setStatus('PDF-lib 库加载失败，请尝试刷新页面或检查网络', 'error');
   }
-}, 3000);
+}, 10000);
 </script>
 </body>
 </html>
