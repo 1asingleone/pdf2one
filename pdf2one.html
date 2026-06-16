@@ -7,7 +7,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';document.head.appendChild(s)"></script>
+<script>
+var CDN_URLS = [
+  'https://cdn.bootcdn.net/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
+  'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js'
+];
+(function tryCDN(i) {
+  if (i >= CDN_URLS.length) return;
+  if (typeof PDFDocument !== 'undefined') return;
+  var s = document.createElement('script');
+  s.src = CDN_URLS[i];
+  s.onload = function() { if (typeof PDFDocument === 'undefined') tryCDN(i+1); };
+  s.onerror = function() { tryCDN(i+1); };
+  document.head.appendChild(s);
+})(0);
+</script>
 <style>
 :root {
   --bg: #f3f4f6;
